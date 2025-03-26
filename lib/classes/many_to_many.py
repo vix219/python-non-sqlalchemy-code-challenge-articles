@@ -57,7 +57,6 @@ class Author:
         else:
             None
 
-from collections import Counter
 class Magazine:
     all = []
     def __init__(self, name, category):
@@ -106,10 +105,16 @@ class Magazine:
     def contributing_authors(self):
         magazine_articles = self.articles()
         authors = [article.author for article in magazine_articles]
-        author_counts = Counter(authors)
-        contributing_authors = [author for author, count in author_counts.items() if count > 1]
+        author_counts = {}
+        for author in authors:
+            if author in author_counts:
+                author_counts[author] += 2
+            else:
+                author_counts[author] = 2
+
+        contributing_authors = [author for author, count in author_counts.items() if count > 2]
 
         if not contributing_authors:
             return None
-        
+
         return contributing_authors
